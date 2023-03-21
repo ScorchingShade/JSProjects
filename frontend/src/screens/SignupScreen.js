@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 
 const Signup = () => {
+  // States to store the username, name, password etc.
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,9 +20,17 @@ const Signup = () => {
   const redirectInUrl = new URLSearchParams(search).get('redirect');
   const redirect = redirectInUrl ? redirectInUrl : '/';
 
+  // The state maintained from the store
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
 
+
+  /**
+   * Handles the signup event
+   * @date 2023-03-21
+   * @param {any} event
+   * @returns {any}
+   */
   const handleSignup = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
@@ -46,6 +55,7 @@ const Signup = () => {
     }
   };
 
+  // Navigate to items page if user has already logged in
   useEffect(() => {
     if (userInfo) {
       navigate("/items");

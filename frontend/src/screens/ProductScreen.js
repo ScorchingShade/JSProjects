@@ -21,7 +21,7 @@ function ProductScreen() {
     headers: { Authorization: `Bearer ${token}` }
 };
 
-
+// Reducer to handle complex fetch state
   const reducer= (state, action)=>{
     switch (action.type){
       case 'FETCH_REQUEST':
@@ -60,6 +60,13 @@ function ProductScreen() {
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {cart}=state;
+
+
+  /**
+   * Handle adding to cart
+   * @date 2023-03-21
+   * @returns {any}
+   */
   const addToCartHandler = async() => {
     const existItem=cart.cartItems.find((x)=>x.id===product.id)
     const quantity=existItem?existItem.quantity+1:1;

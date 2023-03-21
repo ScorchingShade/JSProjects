@@ -26,6 +26,13 @@ export default function CartScreen() {
 };
 
 
+/**
+ * Updates items based on user input
+ * @date 2023-03-21
+ * @param {any} item
+ * @param {any} quantity
+ * @returns {any}
+ */
 const updateCartHandler = async (item,quantity) => {
   try {
     const body= {item_id:item.id}
@@ -49,15 +56,37 @@ const updateCartHandler = async (item,quantity) => {
 };
 
 
-const removeItemHandler = async (item) => {
-  const body= {item_id:item.id}
-    const result = await axios.post('/cart/delete',body,config);
-
-    if(result){
-      ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
+/**
+ * Remove all items
+ * @date 2023-03-21
+ * @param {any} item
+ * @param {any} quantity
+ * @returns {any}
+ */
+const removeItemHandler = async (item, quantity) => {
+  let result=''
+  try{
+    while(quantity){
+      const body= {item_id:item.id}
+      result = await axios.post('/cart/delete',body,config);
+      quantity--;
     }
+    if(result){
+      ctxDispatch({ type: 'CART_REMOVE_ALL'});
+    }
+  }
+  catch(e){
+    toast.error("Something went wrong, please try again later")
+  }
 };
 
+/**
+ * Removes item one by one using - icon
+ * @date 2023-03-21
+ * @param {any} item
+ * @param {any} quantity
+ * @returns {any}
+ */
 const removeItem = async (item, quantity)=>{
   try {
     const body= {item_id:item.id}
@@ -81,6 +110,11 @@ const removeItem = async (item, quantity)=>{
 }
 
 
+/**
+ * generates order and checks out
+ * @date 2023-03-21
+ * @returns {any}
+ */
 const checkOutHandler=async()=>{
   try{
     const result = await axios.post('/cart/list',{},config);
@@ -150,7 +184,7 @@ useEffect(() => {
                     </Col>
                     <Col md={3}>₹{item.price}</Col>
                     <Col md={2}>
-                      <Button variant="light" onClick={() => removeItemHandler(item)}>
+                      <Button variant="light" onClick={() => removeItemHandler(item, item.quantity)}>
                         <i className="fas fa-trash"></i>
                       </Button>
                     </Col>

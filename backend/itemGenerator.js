@@ -40,6 +40,7 @@ const PORT = process.env.PORT || 3000;
 async function postData() {
   for (let item of items) {
     try {
+      
       const response = await axios.post(`http://localhost:${PORT}/item/create`, item);
       console.log(response)
       console.log(`Item ${item.id} created with response:`, response.data);

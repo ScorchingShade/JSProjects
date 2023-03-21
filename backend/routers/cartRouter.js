@@ -89,7 +89,8 @@ cartRouter.post("/delete", expressAsyncHandler(async(req, res) => {
 
 
   // Convert cart to order
-cartRouter.post("/:cartId/complete", expressAsyncHandler(async(req, res) => {
+cartRouter.post("/:cartId/complete", authenticate, expressAsyncHandler(async(req, res) => {
+    
     const cart_id = parseInt(req.params.cartId);
     const token = req.headers.authorization.split(" ")[1];
     

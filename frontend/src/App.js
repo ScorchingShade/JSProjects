@@ -22,6 +22,12 @@ const App = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
+  
+  /**
+   * signout handler for the app
+   * @date 2023-03-21
+   * @returns {any}
+   */
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
@@ -32,6 +38,7 @@ const App = () => {
       <div className="d-flex flex-column site-container">
       <ToastContainer position="bottom-center" limit={1} />
         <header>
+          {/* Navbar for directing app flow */}
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/items">
@@ -43,6 +50,7 @@ const App = () => {
                 <Link to="/cart" className="nav-link">
                   Cart
                   {cart.cartItems.length > 0 && (
+                    // We simply get cart items in a reducer and add the quantity to see  how many items we have
                     <Badge pill bg="danger">
                       {localStorage.getItem('cartItems')&&cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                     </Badge>
@@ -73,6 +81,7 @@ const App = () => {
           </Navbar>
         </header>
         <main className="mt-3">
+          {/* Routes for the app */}
           <Container>
             <Routes>
               <Route path="/" element={<Login />} />
